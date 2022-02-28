@@ -23,8 +23,14 @@ public class MillsShell {
             String command = scanner.nextLine();
             try {
                 ProcessBuilder pb = new ProcessBuilder(command.split("\\s+"));
-                Process p = pb.start();
-                p.waitFor();
+                Process process = pb.start();
+                BufferedReader reader =
+                        new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+                process.waitFor();
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
