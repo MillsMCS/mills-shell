@@ -18,7 +18,7 @@ public class MillsShell {
      */
     public static void main(String args[]) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        Map<String, String> env = System.getenv();
+        Map<String, String> env = getMutableEnvironment();
         while (true) {
             System.out.print("$M$ ");
             String command = scanner.nextLine();
@@ -26,6 +26,12 @@ public class MillsShell {
                 break;
             }
             String[] commandWords = parseCommand(command, env);
+            // set VAR=value
+            if (commandWords.length >= 4 && commandWords[0].equals("set")
+                    && commandWords[2].equals("=")) {
+                env.put(commandWords[1], commandWords[3]);
+                continue;
+            }
             try {
                 ProcessBuilder pb = new ProcessBuilder(commandWords);
                 Process process = pb.start();
@@ -50,5 +56,11 @@ public class MillsShell {
             }
         }
         return commandWords;
+    }
+
+    private static Map<String, String> getMutableEnvironment() {
+        Map<String, String> env0 = System.getenv();
+        Map<String, String> env = new HashMap<>(env0);
+        return env;
     }
 }
