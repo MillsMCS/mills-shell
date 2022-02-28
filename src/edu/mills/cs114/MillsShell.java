@@ -2,6 +2,7 @@ package edu.mills.cs114;
 
 import java.io.*;
 import java.util.*;
+import java.util.Map.*;
 
 /**
  * A simple shell created for CS 114/214 Lecture 12.
@@ -30,6 +31,13 @@ public class MillsShell {
             if (commandWords.length >= 4 && commandWords[0].equals("set")
                     && commandWords[2].equals("=")) {
                 env.put(commandWords[1], commandWords[3]);
+                continue;
+            }
+            // set [list all environment variables]
+            else if (commandWords.length == 1 && commandWords[0].equals("set")) {
+                for (Entry<String, String> entry : env.entrySet()) {
+                    System.out.println(entry.getKey() + "=" + entry.getValue());
+                }
                 continue;
             }
             try {
