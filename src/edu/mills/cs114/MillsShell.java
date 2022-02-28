@@ -18,14 +18,14 @@ public class MillsShell {
 	 */
 	public static void main(String args[]) throws IOException, InterruptedException {
 		Scanner scanner = new Scanner(System.in);
-		Runtime runtime = Runtime.getRuntime();
 		while (true) {
-			System.out.print("$ ");
+			System.out.print("$M$ ");
 			String command = scanner.nextLine();
 			try {
-				Process p = runtime.exec(command);
+				ProcessBuilder pb = new ProcessBuilder(command);
+				Process p = pb.start();
 				p.waitFor();
-			} catch (Exception e) {
+			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}
 		}
