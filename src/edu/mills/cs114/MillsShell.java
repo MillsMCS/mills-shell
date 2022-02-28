@@ -25,12 +25,7 @@ public class MillsShell {
             if (command.equals("exit")) {
                 break;
             }
-            String[] commandWords = command.split("\\s+");
-            for (int i = 0; i < commandWords.length; i++) {
-                if (commandWords[i].startsWith("$")) {
-                    commandWords[i] = env.getOrDefault(commandWords[i].substring(1), "");
-                }
-            }
+            String[] commandWords = parseCommand(command, env);
             try {
                 ProcessBuilder pb = new ProcessBuilder(commandWords);
                 Process process = pb.start();
@@ -45,5 +40,15 @@ public class MillsShell {
                 System.err.println(e.getMessage());
             }
         }
+    }
+
+    private static String[] parseCommand(String command, Map<String, String> env) {
+        String[] commandWords = command.split("\\s+");
+        for (int i = 0; i < commandWords.length; i++) {
+            if (commandWords[i].startsWith("$")) {
+                commandWords[i] = env.getOrDefault(commandWords[i].substring(1), "");
+            }
+        }
+        return commandWords;
     }
 }
