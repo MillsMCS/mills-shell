@@ -21,6 +21,9 @@ public class MillsShell {
         while (true) {
             System.out.print("$M$ ");
             String command = scanner.nextLine();
+            if (command.equals("exit")) {
+                break;
+            }
             try {
                 ProcessBuilder pb = new ProcessBuilder(command.split("\\s+"));
                 Process process = pb.start();
