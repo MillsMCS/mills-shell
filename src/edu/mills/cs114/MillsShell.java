@@ -18,14 +18,21 @@ public class MillsShell {
      */
     public static void main(String args[]) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
+        Map<String, String> env = System.getenv();
         while (true) {
             System.out.print("$M$ ");
             String command = scanner.nextLine();
             if (command.equals("exit")) {
                 break;
             }
+            String[] commandWords = command.split("\\s+");
+            for (int i = 0; i < commandWords.length; i++) {
+                if (commandWords[i].startsWith("$")) {
+                    commandWords[i] = env.getOrDefault(commandWords[i].substring(1), "");
+                }
+            }
             try {
-                ProcessBuilder pb = new ProcessBuilder(command.split("\\s+"));
+                ProcessBuilder pb = new ProcessBuilder(commandWords);
                 Process process = pb.start();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(process.getInputStream()));
