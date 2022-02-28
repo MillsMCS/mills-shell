@@ -22,8 +22,12 @@ public class MillsShell {
 		while (true) {
 			System.out.print("$ ");
 			String command = scanner.nextLine();
-			Process p = runtime.exec(command);
-			p.waitFor();
+			try {
+				Process p = runtime.exec(command);
+				p.waitFor();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
 		}
 	}
 }
