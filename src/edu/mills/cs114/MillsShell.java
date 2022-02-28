@@ -1,8 +1,7 @@
 package edu.mills.cs114;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
  * A simple shell created for CS 114/214 Lecture 12.
@@ -18,11 +17,11 @@ public class MillsShell {
 	 * @throws InterruptedException if the command's execution is interrupted
 	 */
 	public static void main(String args[]) throws IOException, InterruptedException {
-		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		Scanner scanner = new Scanner(System.in);
 		Runtime runtime = Runtime.getRuntime();
 		while (true) {
 			System.out.print("$ ");
-			String command = keyboard.readLine();
+			String command = scanner.nextLine();
 			Process p = runtime.exec(command);
 			p.waitFor();
 		}
